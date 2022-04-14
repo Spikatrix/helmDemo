@@ -15,12 +15,12 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh "helm upgrade mychart ./exercise --dry-run"
+                sh "helm upgrade mychart ./exercise --install --dry-run"
             }
         }
         stage('Deploy') {
             steps {
-                sh "helm upgrade mychart ./exercise"
+                sh "helm upgrade mychart ./exercise --install"
             }
         }
     }
