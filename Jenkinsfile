@@ -8,19 +8,20 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Get some code from a GitHub repository
-                // git '<url>.git'
-
                 sh "helm dependency update ./exercise"
-                sh "helm list ./exercise"
+                sh "helm lint ./exercise"
                 sh "helm package ./exercise"
-                sh "helm install mychart ./exercise"
             }
-
-            /* post {
-                success {
-                }
-            } */
+        }
+        stage('Test') {
+            steps {
+                sh "helm upgrade mychart ./exercise --dry-run"
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh "helm upgrade mychart ./exercise"
+            }
         }
     }
 }
